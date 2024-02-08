@@ -1,0 +1,51 @@
+.footer {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 40px 20px; /* Increase padding for better spacing */
+    text-align: center;
+  }
+  
+  .footer-section {
+    margin-bottom: 30px; /* Increase margin between sections */
+  }
+  
+  .company-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  
+  .footer-section h3 {
+    font-size: 20px; /* Increase font size for section headings */
+    margin-bottom: 15px; /* Increase margin below headings */
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    margin-bottom: 10px;
+  }
+  
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: rgba(0, 21, 255, 0.641);
+  }
+
+    @media screen and (max-width: 768px) {
+    .footer {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 50px;
+        text-align: center;
+      }
+  }
