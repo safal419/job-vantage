@@ -1,11 +1,10 @@
 "use client";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -13,6 +12,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useMutation, gql } from "@apollo/client";
+import client from "../../../apollo.config";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -34,14 +36,65 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
+const SIGN_UP = gql`
+  mutation Register(
+    $username: String!
+    $role: String!
+    $email: String!
+    $password: String!
+  ) {
+    register(
+      username: $username
+      role: $role
+      email: $email
+      password: $password
+    ) {
+      _id
+      username
+      role
+      email
+    }
+  }
+`;
+
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const [userData, setUserData] = useState({
+    username: "",
+    role: "",
+    email: "",
+    password: "",
+  });
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    client
+      .mutate({
+        mutation: SIGN_UP,
+        variables: userData,
+      })
+      .then((response) => {
+        console.log("User added:", response.data.register);
+        setUserData({
+          username: "",
+          role: "",
+          email: "",
+          password: "",
+        });
+        setSuccessMessage("✅✅ User Added Successfully");
+      })
+      .catch((error) => {
+        console.error("Error creating:", error);
+      });
   };
 
   return (
@@ -90,36 +143,55 @@ export default function SignInSide() {
               sx={{ mt: 1 }}
             >
               <TextField
+                value={userData.username}
                 margin="normal"
                 required
                 fullWidth
                 id="name"
                 label="Full Name"
-                name="name"
+                name="username"
+                onChange={handleChange}
                 autoComplete="name"
                 autoFocus
               />
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="role"
+                  value={userData.role}
+                  label="role"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"Jobseeker"}>Jobseeker</MenuItem>
+                  <MenuItem value={"Employer"}>Employer</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 margin="normal"
+                value={userData.email}
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={handleChange}
                 autoComplete="email"
                 autoFocus
               />
               <TextField
+                value={userData.password}
                 margin="normal"
                 required
                 fullWidth
                 name="password"
+                onChange={handleChange}
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
@@ -128,6 +200,7 @@ export default function SignInSide() {
               >
                 Sign Up
               </Button>
+              {successMessage && <Typography>{successMessage}</Typography>}{" "}
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">

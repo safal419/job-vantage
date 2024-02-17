@@ -2,16 +2,16 @@ import React from "react";
 import "./style.css";
 
 const categories = [
-  { name: "Design", logo: "/software_logo.png", jobs: 150 },
-  { name: "Sales", logo: "/design_logo.png", jobs: 80 },
-  { name: "Marketing", logo: "/data_logo.png", jobs: 120 },
-  { name: "Finance", logo: "/marketing_logo.png", jobs: 100 },
-  { name: "Technology", logo: "/software_logo.png", jobs: 150 },
-  { name: "Engineering", logo: "/design_logo.png", jobs: 80 },
-  { name: "Business", logo: "/data_logo.png", jobs: 120 },
-  { name: "Human Resource", logo: "/marketing_logo.png", jobs: 100 },
-  { name: "Business", logo: "/data_logo.png", jobs: 120 },
-  { name: "Human Resource", logo: "/marketing_logo.png", jobs: 100 },
+  { name: "Design", logo: "https://via.placeholder.com/50", jobs: 150 },
+  { name: "Sales", logo: "https://via.placeholder.com/50", jobs: 80 },
+  { name: "Marketing", logo: "https://via.placeholder.com/50", jobs: 120 },
+  { name: "Finance", logo: "https://via.placeholder.com/50", jobs: 100 },
+  { name: "Technology", logo: "https://via.placeholder.com/50", jobs: 150 },
+  { name: "Engineering", logo: "https://via.placeholder.com/50", jobs: 80 },
+  { name: "Business", logo: "https://via.placeholder.com/50", jobs: 120 },
+  { name: "Human Resource", logo: "https://via.placeholder.com/50", jobs: 100 },
+  { name: "Business", logo: "https://via.placeholder.com/50", jobs: 120 },
+  { name: "Human Resource", logo: "https://via.placeholder.com/50", jobs: 100 },
 ];
 
 const JobCategories = () => {

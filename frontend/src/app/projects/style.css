@@ -1,0 +1,38 @@
+/* style.css */
+
+.job-list-container {
+  display: flex;
+  padding: 80px;
+}
+
+.categories-column {
+  flex: 1; 
+  padding: 40px;
+  border-radius: 4px; 
+  overflow: hidden; 
+}
+
+.jobs-column {
+  flex: 5; 
+  margin-left: 20px;
+}
+
+
+
+.job-list-item {
+  padding: 16px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center; 
+}
+
+.job-list-item:last-child {
+  border-bottom: none;
+}
+
+.job-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+}

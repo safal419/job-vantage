@@ -28,6 +28,11 @@ const Navbar = () => {
 
       <div className={styles.actions}>
         <div>
+          <Link href="/uploadjobs">
+            <Button variant="contained" size="small">
+              Post a Job +
+            </Button>{" "}
+          </Link>
           <Link href="/login">
             <Button variant="contained" size="small">
               Login

@@ -1,6 +1,8 @@
 "use client";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
+import { useState, useEffect } from "react";
+
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -12,6 +14,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import { useMutation, gql } from "@apollo/client";
+import client from "../../../apollo.config";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Copyright(props: any) {
@@ -33,15 +37,45 @@ function Copyright(props: any) {
 }
 
 const defaultTheme = createTheme();
+const SIGN_IN = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      _id
+      email
+    }
+  }
+`;
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+  const [successMessage, setSuccessMessage] = useState("");
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const { data } = await client.mutate({
+        mutation: SIGN_IN,
+        variables: userData,
+      });
+      if (data.login) {
+        console.log("Login successful");
+        setSuccessMessage("✅✅ User Added Successfully");
+      } else {
+        console.log("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
   };
 
   return (
@@ -121,6 +155,7 @@ export default function SignInSide() {
               >
                 Sign In
               </Button>
+              {successMessage && <Typography>{successMessage}</Typography>}{" "}
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
