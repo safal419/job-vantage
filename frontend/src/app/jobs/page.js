@@ -55,7 +55,6 @@ const JobList = () => {
   }, []);
 
   useEffect(() => {
-    // Refresh jobs when returning to this page
     const handleRouteChange = () => {
       getJobs();
     };
@@ -76,16 +75,16 @@ const JobList = () => {
           Categories
         </Typography>
         <List className="categories-list">
-          {categories.map((category, index) => (
+          {jobs.map((job, index) => (
             <ListItem key={index} dense button>
               <Checkbox color="primary" />
-              <ListItemText primary={category} />
+              <ListItemText primary={job.category} />
             </ListItem>
           ))}
         </List>
       </div>
       <div className="jobs-column">
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Jobs
         </Typography>
         <List className="job-list">
@@ -98,7 +97,7 @@ const JobList = () => {
               <ListItemAvatar>
                 <Avatar
                   alt={job.title}
-                  src={job.imageUrl} // Assuming imageUrl is available in job data
+                  src={job.imageUrl}
                   className="job-avatar"
                 />
               </ListItemAvatar>

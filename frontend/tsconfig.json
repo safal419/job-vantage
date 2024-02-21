@@ -30,6 +30,6 @@
     "src/app/jobs/page.js",
     "src/app/jobs/page.js",
     "src/app/jobs/page.js"
-  ],
+, "src/app/sign-up/page.js", "src/app/api/auth/signup.js"  ],
   "exclude": ["node_modules"]
 }

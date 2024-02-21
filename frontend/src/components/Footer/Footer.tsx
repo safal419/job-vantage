@@ -8,19 +8,19 @@ const Footer = () => {
       <div className="footer-section company-info">
         <img src="/assets/logo.png" alt=" Logo" className="company-logo" />
         <h2>JobVantage</h2>
-        <p>A little description about the company.</p>
+        <p></p>
       </div>
       <div className="footer-section">
         <h3>Useful Links</h3>
         <ul>
           <li>
-            <a href="#">Link 1</a>
+            <a href="#">About Us</a>
           </li>
           <li>
-            <a href="#">Link 2</a>
+            <a href="#">Find Jobs</a>
           </li>
           <li>
-            <a href="#">Link 3</a>
+            <a href="#">Find Projects</a>
           </li>
         </ul>
       </div>

@@ -59,10 +59,10 @@ const JobList = () => {
           Categories
         </Typography>
         <List className="categories-list">
-          {categories.map((category, index) => (
+          {jobs.map((job, index) => (
             <ListItem key={index} dense button>
               <Checkbox color="primary" />
-              <ListItemText primary={category} />
+              <ListItemText primary={job.category} />
             </ListItem>
           ))}
         </List>

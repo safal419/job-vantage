@@ -1,58 +1,31 @@
 "use client";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { useMutation, gql } from "@apollo/client";
-import client from "../../../apollo.config";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Created By "}
-      <Link color="inherit" href="https://saphalsapkota.com.np">
-        Saphal Sakota
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const defaultTheme = createTheme();
-const SIGN_IN = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      _id
-      email
-    }
-  }
-`;
-
-export default function SignInSide() {
+function SignInSide() {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
-  const handleChange = (e: any) => {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevState) => ({
       ...prevState,
@@ -60,26 +33,25 @@ export default function SignInSide() {
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { data } = await client.mutate({
-        mutation: SIGN_IN,
-        variables: userData,
+      const { email, password } = userData;
+      const response = await axios.post(`http://localhost:3009/auth/login`, {
+        email: email,
+        password: password,
       });
-      if (data.login) {
-        console.log("Login successful");
-        setSuccessMessage("✅✅ User Added Successfully");
-      } else {
-        console.log("Invalid email or password");
-      }
+      console.log(response.data);
+      setSuccessMessage(response.data.message);
+      // Redirect or perform any actions upon successful login
     } catch (error) {
       console.error("Error logging in:", error);
+      setErrorMessage(error.response.data.message);
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={createTheme()}>
       <Grid
         container
         component="main"
@@ -124,6 +96,7 @@ export default function SignInSide() {
               sx={{ mt: 1 }}
             >
               <TextField
+                value={userData.email}
                 margin="normal"
                 required
                 fullWidth
@@ -132,8 +105,10 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleChange}
               />
               <TextField
+                value={userData.password}
                 margin="normal"
                 required
                 fullWidth
@@ -142,6 +117,7 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -155,7 +131,10 @@ export default function SignInSide() {
               >
                 Sign In
               </Button>
-              {successMessage && <Typography>{successMessage}</Typography>}{" "}
+              {successMessage && <Typography>{successMessage}</Typography>}
+              {errorMessage && (
+                <Typography color="error">{errorMessage}</Typography>
+              )}
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -168,7 +147,6 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
@@ -176,3 +154,5 @@ export default function SignInSide() {
     </ThemeProvider>
   );
 }
+
+export default SignInSide;

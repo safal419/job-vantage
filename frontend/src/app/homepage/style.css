@@ -3,6 +3,13 @@
     margin-left: 100px;
     margin-top: 70px;
 }
+.main-container{
+  display: flex;
+}
+.image img{
+  height: 200px;
+  width: 200px;
+}
 h1{
     font-family: 'Times New Roman', Times, serif;
     font-size: 50px;
